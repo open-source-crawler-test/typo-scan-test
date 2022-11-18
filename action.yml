@@ -30,7 +30,7 @@ runs:
     - name: Checkout repository with typo binary
       uses: actions/checkout@v3
       with:
-        repository: ${{ inputs.repository }})
+        repository: ${{ inputs.repository }}
         path: repoToScan
 
     - name: Checkout repository with typo binary
