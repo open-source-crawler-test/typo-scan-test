@@ -56,15 +56,15 @@ runs:
         cd ..
       shell: bash
 
-    # - name: 🚫 Preform typo scan
-    #   run: |
-    #     cd repoToScan
-    #     ${{ github.workspace }}/typos >> typos-report/typos.txt || true
-    #     ${{ github.workspace }}/typos >> typos-report/typos.diff --diff || true
-    #     cd ..
-    #   shell: bash
+    - name: 🚫 Preform typo scan
+      run: |
+        cd repoToScan
+        ${{ github.workspace }}/typos >> typos-report/typos.txt || true
+        ${{ github.workspace }}/typos >> typos-report/typos.diff --diff || true
+        cd ..
+      shell: bash
 
-    # - uses: actions/upload-artifact@v3
-    #   with:
-    #     name: typos-report
-    #     path: repoToScan/typos-report
+    - uses: actions/upload-artifact@v3
+      with:
+        name: typos-report
+        path: repoToScan/typos-report
