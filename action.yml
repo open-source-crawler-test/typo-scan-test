@@ -1,0 +1,69 @@
+name: 'TypoScan'
+description: 'Scan repository for typos'
+inputs:
+  repository:
+    description: 'Repository owner/name string'
+    required: true
+    default: ''
+  scan-exclude-match:
+    description: 'Array on file paths to avoid typo scan'
+    required: true
+    default: '[''typos/**'', ''public/**'']'
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    - name: Validate input repository exists 
+      run: |
+        http_response=$(curl -s -o /dev/null/ -w "%{http_code}" https://github.com/${{ inputs.repository }})
+        if [ $http_response != "200" ]; then
+          echo “Repo is not valid”;
+          exit 1;
+        else
+          echo “Repo is valid returned”;
+        fi
+    
+    - name: Checkout repository with typo binary
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.repository }})
+        path: repoToScan
+
+    - name: Checkout repository with typo binary
+      uses: actions/checkout@v3
+      with:
+        repository: spencerlepine/my-test-action
+        path: typoBinary
+
+    - name: 🛠️ Create spell checker config file
+      run: |
+        mv typoBinary/typo && repoToScan
+        cd repoToScan
+        touch _typos.toml
+        echo "[files]" >> _typos.toml
+        echo "extend-exclude = ${{ inputs.scan-exclude-match }}" >> _typos.toml
+        # echo "extend-exclude = ['typos/**', 'public/**']" >> _typos.toml
+        cat _typos.toml
+        mkdir typos-report
+        cd typos-report
+        touch typos.txt
+        touch typos.diff
+        cd ..
+        cd ..
+      shell: bash
+
+    - name: 🚫 Preform typo scan
+      run: |
+        cd repoToScan
+        ${{ github.workspace }}/typos >> typos-report/typos.txt || true
+        ${{ github.workspace }}/typos >> typos-report/typos.diff --diff || true
+        cd ..
+      shell: bash
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: typos-report
+        path: repoToScan/typos-report
