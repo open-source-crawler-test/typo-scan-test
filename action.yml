@@ -40,7 +40,14 @@ runs:
         path: typoBinary
 
     - name: debug
-      run: ls -a
+      run: |
+        ls -a
+        cd typoBinary
+        ls -a
+        cd bin
+        ls -a
+        cd ../../repoToScan
+        ls -a
       shell: bash
   
     # - name: 🛠️ Create spell checker config file
