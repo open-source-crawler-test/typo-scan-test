@@ -1,5 +1,5 @@
-name: 'TypoScan'
-description: 'Scan repository for typos'
+name: 'RepoTypoScan'
+description: 'Scan a public repository for typos'
 inputs:
   repository:
     description: 'Repository owner/name string'
@@ -13,7 +13,6 @@ inputs:
     description: 'Custom name of report folder uploaded as artifact'
     required: false
     default: 'typos-report'
-outputs:
 runs:
   using: "composite"
   steps:
@@ -43,7 +42,7 @@ runs:
     - name: Checkout repository with typo binary
       uses: actions/checkout@v3
       with:
-        repository: open-source-crawler-test/typo-scan-test
+        repository: ${{ github.action_repository }}
         path: typoBinary
   
     - name: 🛠️ Set up typos binary and toml config file
