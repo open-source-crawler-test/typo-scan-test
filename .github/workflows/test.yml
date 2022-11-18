@@ -1,5 +1,7 @@
 name: Test Action
-on: push
+on: 
+ push:
+ workflow_dispatch:
 
 jobs:
   test-action:
