@@ -69,14 +69,15 @@ runs:
       run: |
         cd repoToScan/typos-report
         touch README.md
-        echo "# Typos Report - [${{ env.REPO_URL }}](https://github.com/${{ inputs.repository }})" >> README.md
+        echo "# Typos Report - [${{ inputs.repository }}](https://github.com/${{ inputs.repository }})" >> README.md
         echo "" >> README.md
-        echo "Repository: [${{ env.REPO_URL }}](https://github.com/${{ inputs.repository }})" >> README.md
+        echo "**Repository:** [${{ inputs.repository }}](https://github.com/${{ inputs.repository }})" >> README.md
         echo "" >> README.md
-        echo "Analysis Date: $(date)" >> README.md
+        echo "**Analysis Date:** $(date)" >> README.md
         echo "" >> README.md
         cd ..
-        echo "Size: $(ls -alh typos-report/)" >> typos-report/README.md
+        # echo "Size: $(ls -alh typos-report/)" >> typos-report/README.md
+        echo "**Size:** $(du -sh)" >> typos-report/README.md
         echo "" >> typos-report/README.md
         cat typos-report/README.md >> $GITHUB_STEP_SUMMARY
         cd ../..
