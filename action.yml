@@ -9,6 +9,10 @@ inputs:
     description: 'Array on file paths to avoid typo scan'
     required: true
     default: '[''typos/**'', ''public/**'']'
+  report-folder-name:
+    description: 'Custom name of report folder uploaded as artifact'
+    required: false
+    default: 'typos-report'
 outputs:
   random-number:
     description: "Random number"
@@ -16,6 +20,12 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Set up config
+      run: |
+        reportFolderName="${{ inputs.report-folder-name }}"
+        echo "reportFolderName=${reportFolderName}" >> $GITHUB_ENV
+      shell: bash
+    
     - name: Validate input repository exists 
       run: |
         if curl --head --silent --fail https://github.com/${{ inputs.repository }} 2> /dev/null;
@@ -48,8 +58,8 @@ runs:
         echo "extend-exclude = ${{ inputs.scan-exclude-match }}" >> _typos.toml
         # echo "extend-exclude = ['typos/**', 'public/**']" >> _typos.toml
         cat _typos.toml
-        mkdir typos-report
-        cd typos-report
+        mkdir ${{ env.reportFolderName }}
+        cd ${{ env.reportFolderName }}
         touch typos.txt
         touch typos.diff
         cd ..
@@ -60,14 +70,14 @@ runs:
       run: |
         cd repoToScan
         chmod +x typos
-        ./typos >> typos-report/typos.txt || true
-        ./typos >> typos-report/typos.diff --diff || true
+        ./typos >> ${{ env.reportFolderName }}/typos.txt || true
+        ./typos >> ${{ env.reportFolderName }}/typos.diff --diff || true
         cd ..
       shell: bash
 
     - name: Generate report metadata
       run: |
-        cd repoToScan/typos-report
+        cd repoToScan/${{ env.reportFolderName }}
         touch README.md
         echo "# Typos Report - [${{ inputs.repository }}](https://github.com/${{ inputs.repository }})" >> README.md
         echo "" >> README.md
@@ -76,14 +86,14 @@ runs:
         echo "**Analysis Date:** $(date)" >> README.md
         echo "" >> README.md
         cd ..
-        # echo "Size: $(ls -alh typos-report/)" >> typos-report/README.md
-        echo "**Size:** $(du -sh)" >> typos-report/README.md
-        echo "" >> typos-report/README.md
-        cat typos-report/README.md >> $GITHUB_STEP_SUMMARY
+        # echo "Size: $(ls -alh ${{ env.reportFolderName }}/)" >> ${{ env.reportFolderName }}/README.md
+        echo "**Report size:** $(du -sh)" >> ${{ env.reportFolderName }}/README.md
+        echo "" >> ${{ env.reportFolderName }}/README.md
+        cat ${{ env.reportFolderName }}/README.md >> $GITHUB_STEP_SUMMARY
         cd ../..
       shell: bash
 
     - uses: actions/upload-artifact@v3
       with:
-        name: typos-report
-        path: repoToScan/typos-report
+        name: ${{ env.reportFolderName }}
+        path: repoToScan/${{ env.reportFolderName }}
