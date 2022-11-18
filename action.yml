@@ -65,6 +65,23 @@ runs:
         cd ..
       shell: bash
 
+    - name: Generate report metadata
+      run: |
+        cd repoToScan
+        touch README.md
+        echo "# Typo Report Metadata" >> README.md
+        echo "" >> README.md
+        echo "Repository:" >> README.md
+        echo '[${{ env.REPO_URL }}](https://github.com/${{ env.REPO_URL }})' >> README.md
+        echo "" >> README.md
+        echo "Analysis Date:" >> README.md
+        echo "" >> README.md
+        date >> README.md
+        echo "" >> README.md
+        echo "Size: $(ls -alh typos-report/)" >> README.md
+        echo "" >> README.md
+      shell: bash
+
     - uses: actions/upload-artifact@v3
       with:
         name: typos-report

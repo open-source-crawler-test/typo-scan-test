@@ -12,5 +12,5 @@ jobs:
       - name: Run this action to test it
         uses: ./
         with:
-          repository: spencerlepine/open-source-crawler-output
+          repository: npm/registry
           scan-exclude-match: '[''typos/**'', ''public/**'']'
