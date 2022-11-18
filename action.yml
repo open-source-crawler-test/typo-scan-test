@@ -18,12 +18,20 @@ runs:
   steps:
     - name: Validate input repository exists 
       run: |
-        http_response=$(curl -s -o /dev/null/ -w "%{http_code}" https://github.com/${{ inputs.repository }})
-        if [ $http_response != "200" ]; then
-          echo “Repo is not valid”;
-          exit 1;
+        # http_response=$(curl -s -o /dev/null/ -w "%{http_code}" https://github.com/${{ inputs.repository }})
+        # if [ $http_response != "200" ]; then
+        #   echo “Repo is not valid”;
+        #   exit 1;
+        # else
+        #   echo “Repo is valid returned”;
+        # fi
+
+        if curl --head --silent --fail https://github.com/${{ inputs.repository }} 2> /dev/null;
+        then
+          echo "This page exists."
         else
-          echo “Repo is valid returned”;
+          echo "This page does not exist."
+          exit 1;
         fi
       shell: bash
     
