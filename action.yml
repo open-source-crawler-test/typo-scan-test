@@ -25,6 +25,7 @@ runs:
         else
           echo “Repo is valid returned”;
         fi
+      shell: bash
     
     - name: Checkout repository with typo binary
       uses: actions/checkout@v3
