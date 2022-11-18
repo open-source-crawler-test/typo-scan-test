@@ -67,7 +67,7 @@ runs:
 
     - name: Generate report metadata
       run: |
-        cd repoToScan
+        cd repoToScan/typos-report
         touch README.md
         echo "# Typo Report Metadata" >> README.md
         echo "" >> README.md
@@ -80,6 +80,8 @@ runs:
         echo "" >> README.md
         echo "Size: $(ls -alh typos-report/)" >> README.md
         echo "" >> README.md
+        cat README.md >> $GITHUB_JOB_SUMMARY
+        cd ../..
       shell: bash
 
     - uses: actions/upload-artifact@v3
