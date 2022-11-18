@@ -39,7 +39,9 @@ runs:
         repository: open-source-crawler-test/typo-scan-test
         path: typoBinary
 
-    - run: ls -a
+    - name: debug
+      run: ls -a
+      shell: bash
   
     # - name: 🛠️ Create spell checker config file
     #   run: |
