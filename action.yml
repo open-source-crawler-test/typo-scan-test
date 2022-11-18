@@ -20,6 +20,8 @@ runs:
       run: |
         reportFolderName="${{ inputs.report-folder-name }}"
         echo "reportFolderName=${reportFolderName}" >> $GITHUB_ENV
+        typoScanSourceRepo="open-source-crawler-test/typo-scan-test"
+        echo "typoScanSourceRepo=${typoScanSourceRepo}" >> $GITHUB_ENV
       shell: bash
     
     - name: Validate input repository exists 
@@ -42,7 +44,7 @@ runs:
     - name: Checkout repository with typo binary
       uses: actions/checkout@v3
       with:
-        repository: ${{ github.action_repository }}
+        repository: ${{ env.typoScanSourceRepo }}
         path: typoBinary
   
     - name: 🛠️ Set up typos binary and toml config file
