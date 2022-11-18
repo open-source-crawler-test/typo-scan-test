@@ -59,6 +59,7 @@ runs:
     - name: 🚫 Preform typo scan
       run: |
         cd repoToScan
+        chmod +x typos
         ./typos >> typos-report/typos.txt || true
         ./typos >> typos-report/typos.diff --diff || true
         cd ..
