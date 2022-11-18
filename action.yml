@@ -80,7 +80,7 @@ runs:
         echo "" >> README.md
         echo "Size: $(ls -alh typos-report/)" >> README.md
         echo "" >> README.md
-        cat README.md >> $GITHUB_JOB_SUMMARY
+        cat README.md >> $GITHUB_STEP_SUMMARY
         cd ../..
       shell: bash
 
