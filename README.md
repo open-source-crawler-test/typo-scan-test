@@ -1,5 +1,6 @@
 # RepoTypoScan Reusable Action [![CI](https://github.com/open-source-crawler-test/typo-scan-test/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/open-source-crawler-test/typo-scan-test/actions/workflows/ci.yml)
 
+Scan repository source code for typos with a reusable action.
 
 ## Basic Usage
 
@@ -18,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: ✅ Run action.yml to verify all steps pass
+      - name: Scan source code for typos
         uses: open-source-crawler-test/typo-scan-test@main
         with:
           repository: ${{ github.repository }}
@@ -45,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: ✅ Run action.yml to verify all steps pass
+      - name: Scan external source code for typos
         uses: open-source-crawler-test/typo-scan-test@main
         with:
           repository: npm/registry
