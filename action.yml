@@ -41,7 +41,7 @@ runs:
 
     - name: 🛠️ Create spell checker config file
       run: |
-        mv typoBinary/bin/typo && repoToScan
+        mv typoBinary/bin/typo
         cd repoToScan
         touch _typos.toml
         echo "[files]" >> _typos.toml
