@@ -27,7 +27,7 @@ runs:
         fi
       shell: bash
     
-    - name: Checkout repository with typo binary
+    - name: Checkout repository TO SCAN
       uses: actions/checkout@v3
       with:
         repository: ${{ inputs.repository }}
@@ -59,8 +59,8 @@ runs:
     - name: 🚫 Preform typo scan
       run: |
         cd repoToScan
-        ${{ github.workspace }}/typos >> typos-report/typos.txt || true
-        ${{ github.workspace }}/typos >> typos-report/typos.diff --diff || true
+        ./typos >> typos-report/typos.txt || true
+        ./typos >> typos-report/typos.diff --diff || true
         cd ..
       shell: bash
 
