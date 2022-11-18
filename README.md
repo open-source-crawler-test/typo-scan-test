@@ -27,8 +27,6 @@ jobs:
           report-folder-name: typos-scan-output-artifact
 ```
 
-
-
 ## Scan External Repository
 
 Alternatively, easily run this scan on an external repository
