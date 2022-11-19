@@ -1,5 +1,7 @@
 # RepoTypoScan Reusable Action [![CI](https://github.com/open-source-crawler-test/typo-scan-test/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/open-source-crawler-test/typo-scan-test/actions/workflows/ci.yml)
 
+> ⚠️ This is a part of the [spencerlepine/open-source-crawler](https://github.com/spencerlepine/open-source-crawler) project
+
 Scan repository source code for typos with a reusable action.
 
 ## Basic Usage
